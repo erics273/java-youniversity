@@ -21,9 +21,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/img/**", "/css/**", "/js/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/users").permitAll()
-				.antMatchers(HttpMethod.PUT, "/api/session").permitAll()	
+				.antMatchers(HttpMethod.PUT, "/api/session").permitAll()
+				.antMatchers(HttpMethod.DELETE, "/api/session").permitAll()	
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated()
 				.and()
