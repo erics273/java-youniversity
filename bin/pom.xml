@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.lmig.gfc</groupId>
-	<artifactId>wimp</artifactId>
+	<groupId>com.youniversity</groupId>
+	<artifactId>youniversity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>wimp</name>
-	<description>A little project to build a simple movie database.</description>
+	<name>YOUniversity</name>
+	<description>A little project to build a simple college restful service</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -39,7 +39,6 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,9 +57,8 @@
 		</dependency>
 		
 		<dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
 
 	</dependencies>

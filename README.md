@@ -30,7 +30,7 @@ All files exist in repo. See them for reference
 
 ## Test with postman
 * You should get a 403 forbidden when trying to access routes not allowin in the security config
-* You should be able to do a put request with postman to `http://localhost:8080/api/session/mine` with the following json to authenticate:
+* You should be able to do a put request with postman to `http://localhost:8080/api/session` with the following json to authenticate:
 ```javascript
 {
     "username": "admin@admin.com",
