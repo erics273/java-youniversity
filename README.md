@@ -26,14 +26,14 @@ All files exist in repo. See them for reference
 * Create `SecurityConfiguration.java`
 * Create `CsrfIntoCookieFilter.java`
 * Create your `UserController.java`
-* Add the following line to your seed data to create a test user `User admin = userRepository.save(new User("admin", "user", "admin@admin.com", encoder.encode("password")));`
+* Add the following line to your seed data to create a test user `User admin = userRepository.save(new User("admin", "user", "admin", encoder.encode("password")));`
 
 ## Test with postman
 * You should get a 403 forbidden when trying to access routes not allowin in the security config
 * You should be able to do a put request with postman to `http://localhost:8080/api/session` with the following json to authenticate:
 ```javascript
 {
-    "username": "admin@admin.com",
+    "username": "admin",
     "password": "password"
 }
 ```
@@ -60,5 +60,39 @@ private options = new RequestOptions({ headers: this.headers, withCredentials: t
             .map(this.extractData)
             .catch(this.handleError);
     }
+```
+
+## Using a third party http client
+Make sure you sure you enable `withCredentials` with whatever client you choose. [Superagent](http://visionmedia.github.io/superagent/) is a popular client. They implement a `withCredentials()` method call to enable this functionality.
+
+### superagent example
+```javascript
+	
+	import request from 'superagent';
+
+	const baseUrl = 'SOME_URL';
+	
+	export function login(user) {
+	
+	    return dispatch => {
+	        request.put(`${baseUrl}/session`)
+	        .set('Content-Type', 'application/json')
+	        .withCredentials() // <-- WITH_CREDENTIALS
+	        .send(user)
+	        .end(
+	            (error, response) => {
+	                
+	                if(error) {
+	                    console.error("could not login user" + error);
+	                    return;
+	                }
+	                
+	               //DO STUFF	          
+	
+	            }
+	        )
+	    }
+	}
+
 ```
 

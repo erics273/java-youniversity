@@ -20,7 +20,7 @@ public class SeedData {
 			PasswordEncoder encoder) {
 
 		//create school admin staff
-		userRepository.save(new User("admin", "user", "username", encoder.encode("password")));
+		userRepository.save(new User("admin", "user", "admin", encoder.encode("password")));
 		
 		//major seed
 		Major major = new Major("Computer Science", 1000);
