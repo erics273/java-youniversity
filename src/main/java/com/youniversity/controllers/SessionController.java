@@ -18,17 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.youniversity.models.User;
+import com.youniversity.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/session")
 public class SessionController {
+	
 
 	private UserDetailsService userDetails;
 	private AuthenticationManager authenticator;
+	private UserRepository userRepository;
 
-	public SessionController(UserDetailsService userDetails, AuthenticationManager authenticator) {
+	public SessionController(UserDetailsService userDetails, AuthenticationManager authenticator, UserRepository userRepository) {
 		this.userDetails = userDetails;
 		this.authenticator = authenticator;
+		this.userRepository = userRepository;
 	}
 
 	// gets currently logged in user
@@ -36,7 +40,10 @@ public class SessionController {
 	public User getLoggedInUserIdBecauseThatSoundsFunEvenThoughItMayNotActuallyBeFunInTheTrueSenseOfTheWord(
 			Authentication auth) {
 		if (auth != null) {
-			return (User) auth.getPrincipal();
+			User user = (User) auth.getPrincipal();
+			String username = user.getUsername();
+
+			return userRepository.findByUsername(username);
 		}
 		return null;
 	}
