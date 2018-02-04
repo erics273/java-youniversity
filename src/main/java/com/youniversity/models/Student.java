@@ -39,17 +39,19 @@ public class Student {
     @Column(nullable = false, unique = true)
     private Date startDate;
     
-    public Student() {
-    
+    public Student() { 
     }
-    
-    public Student(String firstName, String lastName, Double gpa, Integer sat, Date startDate) {
+
+
+	public Student(String firstName, String lastName, Double gpa, Integer sat, Date startDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gpa = gpa;
 		this.sat = sat;
 		this.startDate = startDate;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -106,7 +108,5 @@ public class Student {
 	public void setMajor(Major major) {
 		this.major = major;
 	}
-    
-        
 
 }

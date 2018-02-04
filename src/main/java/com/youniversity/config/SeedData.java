@@ -19,8 +19,24 @@ public class SeedData {
 	public SeedData(UserRepository userRepository, StudentRepository studentRepository, MajorRepository  majorRepository, @Autowired
 			PasswordEncoder encoder) {
 
-		//create school admin staff
-		userRepository.save(new User("admin", "user", "admin", encoder.encode("password")));
+		String encodedPassword = encoder.encode("password");
+		
+		User user = new User();
+		user.setUsername("admin");
+		user.setEmail("admin@admin.com");
+		user.setFirstName("Eric");
+		user.setLastName("Schwartz");
+		user.setPassword(encodedPassword);
+		user.addRole("ADMIN");
+		userRepository.save(user);
+		
+		User studentUser = new User();
+		studentUser.setUsername("student");
+		studentUser.setEmail("student@student.com");
+		studentUser.setFirstName("Curtis");
+		studentUser.setLastName("Shlack");
+		studentUser.setPassword(encodedPassword);
+		userRepository.save(studentUser);
 		
 		//major seed
 		Major major = new Major("Computer Science", 1000);
@@ -29,6 +45,7 @@ public class SeedData {
 		Student student = new Student("Eric", "Schwartz",3.8, 1200, new Date(117, 8, 20));
 		student.setMajor(major);
 		studentRepository.save(student);
+		
 		
 	}
 }

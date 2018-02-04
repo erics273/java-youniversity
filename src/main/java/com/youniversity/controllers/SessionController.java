@@ -37,7 +37,7 @@ public class SessionController {
 
 	// gets currently logged in user
 	@GetMapping
-	public User getLoggedInUserIdBecauseThatSoundsFunEvenThoughItMayNotActuallyBeFunInTheTrueSenseOfTheWord(
+	public User getCurrentUser(
 			Authentication auth) {
 		if (auth != null) {
 			User user = (User) auth.getPrincipal();

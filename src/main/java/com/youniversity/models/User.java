@@ -1,112 +1,157 @@
 package com.youniversity.models;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "youniversity_users")
+@Table(name = "youniversity_user")
 public class User implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+	@Column(nullable = false, unique = true)
+	private String username;
+	
+	@Column(nullable = false, unique = true)
+	private String email;
 
-    public User() {
-    }
+	@Column(nullable = false)
+	private String password;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Role> roles;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+    private Student student;
 
-    public User(String firstName, String lastName, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
+	public User() {
+		roles = new ArrayList<Role>();
+	}
 
-    }
+	public Long getId() {
+		return id;
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public List<Role> getRoles() {
+		return roles;
+	}
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public void addRole(String roleName) {
+		Role role = new Role();
+		role.setName(roleName);
+		role.setUser(this);
+		roles.add(role);
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		
+		for (Role role : roles) {
+			String roleName = "ROLE_" + role.getName();
+			SimpleGrantedAuthority authority = new SimpleGrantedAuthority(roleName);
+			authorities.add(authority);
+		}
+		
+		return authorities;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 }
