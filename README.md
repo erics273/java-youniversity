@@ -1,4 +1,4 @@
-# spring-security-rest-example
+# spring-security-rest-example 
 
 ## Dependencies
 
